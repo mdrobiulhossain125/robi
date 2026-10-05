@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Md. Robiul Hossain - Academic Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Lora for Academic Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: {
+                            DEFAULT: '#800020',
+                            dark: '#5C0017',
+                            light: '#A30029',
+                            subtle: 'rgba(128, 0, 32, 0.05)'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Lora', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #2D3748;
+            background-color: #FFFFFF;
+        }
+        .serif-text {
+            font-family: 'Lora', serif;
+        }
+        canvas#constellation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .content-layer {
+            position: relative;
+            z-index: 10;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #800020;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-burgundy selection:text-white">
+
+    <canvas id="constellation"></canvas>
+
+    <div class="content-layer flex flex-col min-h-screen justify-between">
+        <header class="w-full border-b border-gray-100 bg-white/90 backdrop-blur-md sticky top-0 z-50">
+            <div class="max-w-5xl mx-auto px-6 h-20 flex items-center justify-between">
+                <!-- Brand Name -->
+                <a href="#home" onclick="switchPage('home')" class="serif-text text-xl md:text-2xl font-bold text-burgundy hover:opacity-90 transition-opacity tracking-tight">
+                    Md. Robiul Hossain
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-700">
+                    <a href="#home" onclick="switchPage('home')" id="nav-home" class="nav-link text-burgundy font-semibold border-b-2 border-burgundy pb-1">Research</a>
+                    <a href="#teaching" onclick="switchPage('teaching')" id="nav-teaching" class="nav-link hover:text-burgundy transition-colors pb-1">Teaching</a>
+                    <a href="#blog" onclick="switchPage('blog')" id="nav-blog" class="nav-link hover:text-burgundy transition-colors pb-1">Blog</a>
+                    <a href="#bookshelf" onclick="switchPage('bookshelf')" id="nav-bookshelf" class="nav-link hover:text-burgundy transition-colors pb-1">Bookshelf</a>
+                    <a href="#resources" onclick="switchPage('resources')" id="nav-resources" class="nav-link hover:text-burgundy transition-colors pb-1">Resources</a>
+                    <a href="#hobby" onclick="switchPage('hobby')" id="nav-hobby" class="nav-link hover:text-burgundy transition-colors pb-1">Hobby</a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700 hover:text-burgundy focus:outline-none p-2" aria-label="Toggle Menu">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation Drawer -->
+            <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 px-6 py-4 space-y-3 shadow-lg">
+                <a href="#home" onclick="switchPage('home'); toggleMobileMenu();" class="block text-gray-700 hover:text-burgundy font-medium py-1">Research</a>
+                <a href="#teaching" onclick="switchPage('teaching'); toggleMobileMenu();" class="block text-gray-700 hover:text-burgundy font-medium py-1">Teaching</a>
+                <a href="#blog" onclick="switchPage('blog'); toggleMobileMenu();" class="block text-gray-700 hover:text-burgundy font-medium py-1">Blog</a>
+                <a href="#bookshelf" onclick="switchPage('bookshelf'); toggleMobileMenu();" class="block text-gray-700 hover:text-burgundy font-medium py-1">Bookshelf</a>
+                <a href="#resources" onclick="switchPage('resources'); toggleMobileMenu();" class="block text-gray-700 hover:text-burgundy font-medium py-1">Resources</a>
+                <a href="#hobby" onclick="switchPage('hobby'); toggleMobileMenu();" class="block text-gray-700 hover:text-burgundy font-medium py-1">Hobby</a>
+            </div>
+        </header>
+
+        <main class="flex-grow max-w-4xl mx-auto px-6 py-10 w-full">
+            
+            <!-- Quote Box Section -->
+            <section class="mb-12">
+                <div class="border-l-4 border-burgundy bg-gray-50/80 backdrop-blur-sm py-3 px-5 text-gray-600 italic text-sm md:text-base rounded-r-lg shadow-sm">
+                    “Let me be to someone else what no one ever was to me” <span class="not-italic font-semibold text-gray-800">— Wentworth Miller</span>
+                </div>
+            </section>
+
+            <!-- PAGE 1: HOME / RESEARCH VIEW -->
+            <div id="page-home" class="page-view space-y-12">
+                <section class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                    <!-- Profile Picture Column -->
+                    <div class="md:col-span-4 flex flex-col items-center md:items-start">
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-burgundy to-burgundy-light rounded-full blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
+                            <img src="https://placehold.co/300x300/800020/FFFFFF?text=Md.+Robiul+Hossain" 
+                                 alt="Md. Robiul Hossain" 
+                                 class="relative w-48 h-48 md:w-56 md:h-56 rounded-full object-cover border-4 border-white shadow-md"
+                                 onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80'">
+                        </div>
+                    </div>
+
+                    <!-- Bio Text Column -->
+                    <div class="md:col-span-8 space-y-4 text-gray-700 text-base leading-relaxed">
+                        <h1 class="serif-text text-3xl md:text-4xl font-bold text-burgundy tracking-tight">
+                            Hello! I am Robiul.
+                        </h1>
+                        
+                        <p>
+                            I am a <strong class="text-gray-900 font-semibold">Senior Research Associate</strong> at the BRAC Institute of Governance and Development (BIGD), BRAC University, attached to the Gender and Social Development Cluster.
+                        </p>
+
+                        <p>
+                            I work under the supervision of Dr. Munshi Sulaiman, Dr. Khandker Wahedur Rahman, and Dr. Shaila Ahmed. Previously, I worked as a Research Associate at the same institution and as a remote Research Assistant for Dr. Naila Kabeer at the London School of Economics (LSE).
+                        </p>
+
+                        <p>
+                            I hold a bachelor's degree in Economics from the <strong class="text-gray-900 font-semibold">University of Chittagong, Bangladesh</strong>, and I am currently pursuing a master's in <strong class="text-gray-900 font-semibold">Economics at Southern Illinois University Carbondale (SIUC)</strong>. I previously pursued a master's in Mathematics at Ahsanullah University of Science and Technology (AUST).
+                        </p>
+
+                        <p>
+                            At SIUC, I also work as a <strong class="text-gray-900 font-semibold">Graduate Teaching Assistant</strong> at the School of Analytics, Finance and Economics for Dr. Alison Watts. See my <a href="#teaching" onclick="switchPage('teaching')" class="text-burgundy underline hover:text-burgundy-dark font-medium">teaching</a> for details.
+                        </p>
+
+                        <p class="text-sm pt-2 text-gray-600">
+                            To know more details, you can see my <a href="#cv-modal" id="open-cv" class="text-burgundy font-semibold underline hover:text-burgundy-dark cursor-pointer">CV here</a>.
+                        </p>
+                    </div>
+                </section>
+
+                <hr class="border-gray-200 my-12">
+
+                <!-- Research Interests Section -->
+                <section class="space-y-6">
+                    <h2 class="serif-text text-2xl md:text-3xl font-bold text-burgundy tracking-tight">
+                        Research Interests
+                    </h2>
+                    
+                    <p class="text-gray-700 leading-relaxed">
+                        My research interest lies at the intersection of <strong class="text-gray-900 font-semibold">Development Economics, Data and Computational Science</strong>. I am passionate about addressing challenges in developing countries through:
+                    </p>
+
+                    <ul class="list-disc list-inside space-y-2 text-gray-700 pl-2">
+                        <li>Experimental Research</li>
+                        <li>Economic/Mathematical Modeling</li>
+                        <li>Data and Computational Tools</li>
+                    </ul>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-100 shadow-sm mt-4">
+                        <p class="text-sm text-gray-800">
+                            <strong class="font-semibold text-gray-900">Focus Areas:</strong> Child marriage, social protection, poverty, social networks, intimate partner violence, empowerment, education, mental health, microcredit, and parenting.
+                        </p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- PAGE 2: TEACHING VIEW -->
+            <div id="page-teaching" class="page-view hidden space-y-10">
+                <div class="text-center space-y-2 mb-8">
+                    <h1 class="serif-text text-3xl md:text-4xl font-bold text-burgundy">Teaching</h1>
+                    <p class="text-gray-600 text-sm">Courses I have supported as a teaching assistant, with roles and semesters.</p>
+                </div>
+
+                <!-- Institution 1: SIUC -->
+                <div class="space-y-4">
+                    <h2 class="serif-text text-xl md:text-2xl font-bold text-burgundy">Southern Illinois University Carbondale (SIUC)</h2>
+                    <p class="text-sm italic text-gray-600">Graduate Teaching Assistant • School of Analytics, Finance and Economics</p>
+                    
+                    <div class="overflow-x-auto border-t border-b border-burgundy py-2">
+                        <table class="w-full text-left text-sm">
+                            <thead>
+                                <tr class="border-b border-gray-200 text-gray-900 font-semibold">
+                                    <th class="py-2.5 pr-4 w-28">Semester</th>
+                                    <th class="py-2.5 pr-4 w-1/2">Course</th>
+                                    <th class="py-2.5">Duties</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-gray-700">
+                                <tr>
+                                    <td class="py-3 pr-4 font-medium text-gray-900 align-top">Fall 2026</td>
+                                    <td class="py-3 pr-4 align-top">
+                                        <div class="font-medium text-gray-900">ECON 240: Introduction to Microeconomics</div>
+                                        <div class="text-xs text-gray-500 mt-0.5">Faculty: Dr. Alison Watts</div>
+                                    </td>
+                                    <td class="py-3 align-top text-gray-600">Grading, discussion sections, office hours, and assisting in conducting classes</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Institution 2: BRAC University -->
+                <div class="space-y-4 pt-6">
+                    <h2 class="serif-text text-xl md:text-2xl font-bold text-burgundy">BRAC University, Bangladesh</h2>
+                    <p class="text-sm italic text-gray-600">Graduate Teaching Assistant • BRAC Institute of Governance and Development (BIGD)</p>
+                    
+                    <div class="overflow-x-auto border-t border-b border-burgundy py-2">
+                        <table class="w-full text-left text-sm">
+                            <thead>
+                                <tr class="border-b border-gray-200 text-gray-900 font-semibold">
+                                    <th class="py-2.5 pr-4 w-28">Semester</th>
+                                    <th class="py-2.5 pr-4 w-1/2">Course</th>
+                                    <th class="py-2.5">Duties</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-gray-700">
+                                <tr>
+                                    <td class="py-3 pr-4 font-medium text-gray-900 align-top">June 2023 – 2025</td>
+                                    <td class="py-3 pr-4 align-top">
+                                        <div class="font-medium text-gray-900">DEV 502: Poverty: Concept, Measurement and Policy</div>
+                                        <div class="text-xs text-gray-500 mt-0.5">Master of Development Studies • Faculty: Dr. Munshi Sulaiman</div>
+                                    </td>
+                                    <td class="py-3 align-top text-gray-600">Preparing lectures, distributing lecture notes, and grading examination papers</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 3: BLOG VIEW (Exact match to screenshot) -->
+            <div id="page-blog" class="page-view hidden space-y-8">
+                <!-- Blog Header -->
+                <div class="text-center space-y-3">
+                    <h1 class="serif-text text-3xl md:text-4xl font-bold text-burgundy">Blog</h1>
+                    <p class="text-gray-600 text-sm max-w-xl mx-auto">
+                        Notes and essays where I think out loud about economics, game theory, and mathematics, argued with graphs, worked examples, and a fair amount of logical stubbornness.
+                    </p>
+                    
+                    <!-- Quick Info Badges -->
+                    <div class="flex flex-wrap justify-center gap-3 pt-2">
+                        <div class="bg-gray-50 border border-gray-200 px-3 py-1.5 rounded text-xs text-gray-700 flex items-center space-x-2">
+                            <span class="font-semibold text-burgundy"><i class="fa-solid fa-bookmark mr-1"></i> MARGINALIA</span>
+                            <span>• A fortnightly column on the ideas, history, and philosophy behind a single piece of mathematics.</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <div class="bg-gray-50 border border-gray-200 px-3 py-1.5 rounded text-xs text-gray-700 flex items-center space-x-2">
+                            <span class="font-semibold text-burgundy"><i class="fa-solid fa-book mr-1"></i> BOOK REVIEW</span>
+                            <span>• Books I've actually finished; reviewed the way I'd explain them to a friend over coffee.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Layout Grid for Blog (Content + Archive Sidebar) -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-4 items-start">
+                    
+                    <!-- Left / Main Blog Column -->
+                    <div class="lg:col-span-8 space-y-6">
+                        
+                        <!-- Search Bar -->
+                        <div>
+                            <input type="text" id="blog-search" placeholder="Search posts..." 
+                                   class="w-full px-4 py-2 text-sm border border-gray-200 rounded-md focus:outline-none focus:border-burgundy bg-gray-50/50"
+                                   oninput="filterBlogPosts()">
+                        </div>
+
+                        <!-- Topic Filter Buttons -->
+                        <div class="flex flex-wrap gap-1.5 pt-1" id="topic-filters">
+                            <button onclick="filterByTopic('All')" class="topic-btn px-3 py-1 text-xs rounded-full bg-burgundy text-white font-medium transition-colors" data-topic="All">All topics</button>
+                            <button onclick="filterByTopic('Behavioral Economics')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="Behavioral Economics">Behavioral Economics</button>
+                            <button onclick="filterByTopic('Biography')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="Biography">Biography</button>
+                            <button onclick="filterByTopic('Book Review')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="Book Review">Book Review</button>
+                            <button onclick="filterByTopic('Covid-19')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="Covid-19">Covid-19</button>
+                            <button onclick="filterByTopic('Economics')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="Economics">Economics</button>
+                            <button onclick="filterByTopic('Game Theory')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="Game Theory">Game Theory</button>
+                            <button onclick="filterByTopic('History of Science')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="History of Science">History of Science</button>
+                            <button onclick="filterByTopic('Logic')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="Logic">Logic</button>
+                            <button onclick="filterByTopic('Marginalia')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="Marginalia">Marginalia</button>
+                            <button onclick="filterByTopic('Mathematics')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="Mathematics">Mathematics</button>
+                            <button onclick="filterByTopic('Mechanism Design')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="Mechanism Design">Mechanism Design</button>
+                            <button onclick="filterByTopic('Philosophy')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="Philosophy">Philosophy</button>
+                            <button onclick="filterByTopic('Physics')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="Physics">Physics</button>
+                            <button onclick="filterByTopic('Visualization')" class="topic-btn px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-topic="Visualization">Visualization</button>
+                        </div>
+
+                        <div class="text-xs text-gray-500 pb-2" id="post-count-label">8 posts</div>
+
+                        <!-- Articles List Container -->
+                        <div id="blog-posts-container" class="space-y-8 divide-y divide-gray-100">
+                            
+                            <!-- Article 1 -->
+                            <article class="blog-item pt-6 first:pt-0" data-tags="Book Review,Mathematics,Physics,History of Science,Visualization" data-title="The Book That Ended the Argument">
+                                <div class="text-xs text-burgundy font-semibold uppercase tracking-wider mb-1">
+                                    <i class="fa-solid fa-book mr-1"></i> BOOK REVIEW • OCCASIONAL
+                                </div>
+                                <h2 class="serif-text text-xl font-bold text-burgundy hover:underline cursor-pointer mb-1">
+                                    The Book That Ended the Argument
+                                </h2>
+                                <div class="text-xs text-gray-500 mb-3">
+                                    September 28, 2026 • 13 min read
+                                </div>
+                                <p class="text-sm text-gray-700 leading-relaxed mb-4">
+                                    Newton answered Halley's question about planetary orbits in five words, then spent two years writing the book that came out of it. Book by book: the definitions, the three laws, Kepler's laws derived from a single force, the shell theorem, the demolition of vortices, universal gravitation, and the admission at the very end that he had no idea why any of it actually worked.
+                                </p>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="text-[10px] bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded">Book Review</span>
+                                    <span class="text-[10px] bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded">Mathematics</span>
+                                    <span class="text-[10px] bg-purple-50 text-purple-800 border border-purple-200 px-2 py-0.5 rounded">Physics</span>
+                                    <span class="text-[10px] bg-green-50 text-green-800 border border-green-200 px-2 py-0.5 rounded">History of Science</span>
+                                    <span class="text-[10px] bg-rose-50 text-rose-800 border border-rose-200 px-2 py-0.5 rounded">Visualization</span>
+                                </div>
+                            </article>
+
+                            <!-- Article 2 -->
+                            <article class="blog-item pt-6" data-tags="Book Review,Mathematics,Philosophy,Logic,History of Science" data-title="The Book Written in a Cell">
+                                <div class="text-xs text-burgundy font-semibold uppercase tracking-wider mb-1">
+                                    <i class="fa-solid fa-book mr-1"></i> BOOK REVIEW • OCCASIONAL
+                                </div>
+                                <h2 class="serif-text text-xl font-bold text-burgundy hover:underline cursor-pointer mb-1">
+                                    The Book Written in a Cell
+                                </h2>
+                                <div class="text-xs text-gray-500 mb-3">
+                                    September 15, 2026 • 17 min read
+                                </div>
+                                <p class="text-sm text-gray-700 leading-relaxed mb-4">
+                                    Bertrand Russell wrote Introduction to Mathematical Philosophy in six months inside Brixton Prison in 1918. It never asks you to calculate anything. It asks what a number actually is, and by the end, what a sentence about a king who doesn't exist is even talking about.
+                                </p>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="text-[10px] bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded">Book Review</span>
+                                    <span class="text-[10px] bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded">Mathematics</span>
+                                    <span class="text-[10px] bg-indigo-50 text-indigo-800 border border-indigo-200 px-2 py-0.5 rounded">Philosophy</span>
+                                    <span class="text-[10px] bg-teal-50 text-teal-800 border border-teal-200 px-2 py-0.5 rounded">Logic</span>
+                                    <span class="text-[10px] bg-green-50 text-green-800 border border-green-200 px-2 py-0.5 rounded">History of Science</span>
+                                </div>
+                            </article>
+
+                            <!-- Article 3 -->
+                            <article class="blog-item pt-6" data-tags="Marginalia,Mathematics,Philosophy,Visualization,History of Science,Biography" data-title="My Take on the Great Euler">
+                                <div class="text-xs text-burgundy font-semibold uppercase tracking-wider mb-1">
+                                    <i class="fa-solid fa-bookmark mr-1"></i> MARGINALIA • FORTNIGHTLY
+                                </div>
+                                <h2 class="serif-text text-xl font-bold text-burgundy hover:underline cursor-pointer mb-1">
+                                    My Take on the Great Euler
+                                </h2>
+                                <div class="text-xs text-gray-500 mb-3">
+                                    September 11, 2026 • 12 min read
+                                </div>
+                                <p class="text-sm text-gray-700 leading-relaxed mb-4">
+                                    There is a joke that in mathematics everything is named after the second person to discover it, because the first was Euler. A life in three cities, half of it lived blind, told alongside the one equation everyone frames but almost no one reads: $e^{i\pi}+1=0$.
+                                </p>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="text-[10px] bg-cyan-50 text-cyan-800 border border-cyan-200 px-2 py-0.5 rounded">Marginalia</span>
+                                    <span class="text-[10px] bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded">Mathematics</span>
+                                    <span class="text-[10px] bg-indigo-50 text-indigo-800 border border-indigo-200 px-2 py-0.5 rounded">Philosophy</span>
+                                    <span class="text-[10px] bg-rose-50 text-rose-800 border border-rose-200 px-2 py-0.5 rounded">Visualization</span>
+                                    <span class="text-[10px] bg-green-50 text-green-800 border border-green-200 px-2 py-0.5 rounded">History of Science</span>
+                                    <span class="text-[10px] bg-orange-50 text-orange-800 border border-orange-200 px-2 py-0.5 rounded">Biography</span>
+                                </div>
+                            </article>
+
+                            <!-- Article 4 -->
+                            <article class="blog-item pt-6" data-tags="Game Theory,Mechanism Design,Behavioral Economics,Mathematics,Philosophy" data-title="The Selfishness Loop">
+                                <div class="text-xs text-burgundy font-semibold uppercase tracking-wider mb-1 hidden">
+                                    ESSAY
+                                </div>
+                                <h2 class="serif-text text-xl font-bold text-burgundy hover:underline cursor-pointer mb-1">
+                                    The Selfishness Loop
+                                </h2>
+                                <div class="text-xs text-gray-500 mb-3">
+                                    September 10, 2026 • 14 min read
+                                </div>
+                                <p class="text-sm text-gray-700 leading-relaxed mb-4">
+                                    Perceived rationality pushes each of us toward self-interest; self-interest, aggregated, can wreck the very system we depend on (Braess's paradox). The usual fix is mechanism design, but the designers are human too. Does the paradox recurse forever, and is there a single condition under which the system still holds?
+                                </p>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="text-[10px] bg-purple-50 text-purple-800 border border-purple-200 px-2 py-0.5 rounded">Game Theory</span>
+                                    <span class="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded">Mechanism Design</span>
+                                    <span class="text-[10px] bg-yellow-50 text-yellow-800 border border-yellow-200 px-2 py-0.5 rounded">Behavioral Economics</span>
+                                    <span class="text-[10px] bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded">Mathematics</span>
+                                    <span class="text-[10px] bg-indigo-50 text-indigo-800 border border-indigo-200 px-2 py-0.5 rounded">Philosophy</span>
+                                </div>
+                            </article>
+
+                            <!-- Article 5 -->
+                            <article class="blog-item pt-6" data-tags="Book Review,Philosophy,Logic,History of Science" data-title="The Man Who Set the Clocks">
+                                <div class="text-xs text-burgundy font-semibold uppercase tracking-wider mb-1">
+                                    <i class="fa-solid fa-book mr-1"></i> BOOK REVIEW • OCCASIONAL
+                                </div>
+                                <h2 class="serif-text text-xl font-bold text-burgundy hover:underline cursor-pointer mb-1">
+                                    The Man Who Set the Clocks
+                                </h2>
+                                <div class="text-xs text-gray-500 mb-3">
+                                    September 5, 2026 • 13 min read
+                                </div>
+                                <p class="text-sm text-gray-700 leading-relaxed mb-4">
+                                    Immanuel Kant almost never left Königsberg, and his neighbors are said to have set their watches by his afternoon walk. Inside that clockwork life, he wrote Critique of Pure Reason, arguing that space, time, and cause and effect are not furniture of the universe but glasses welded to the mind.
+                                </p>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="text-[10px] bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded">Book Review</span>
+                                    <span class="text-[10px] bg-indigo-50 text-indigo-800 border border-indigo-200 px-2 py-0.5 rounded">Philosophy</span>
+                                    <span class="text-[10px] bg-teal-50 text-teal-800 border border-teal-200 px-2 py-0.5 rounded">Logic</span>
+                                    <span class="text-[10px] bg-green-50 text-green-800 border border-green-200 px-2 py-0.5 rounded">History of Science</span>
+                                </div>
+                            </article>
+
+                            <!-- Article 6 -->
+                            <article class="blog-item pt-6" data-tags="Book Review,Philosophy" data-title="Book Review: Think Like A Monk by Jay Shetty">
+                                <div class="text-xs text-burgundy font-semibold uppercase tracking-wider mb-1">
+                                    <i class="fa-solid fa-book mr-1"></i> BOOK REVIEW
+                                </div>
+                                <h2 class="serif-text text-xl font-bold text-burgundy hover:underline cursor-pointer mb-1">
+                                    Book Review: Think Like A Monk by Jay Shetty
+                                </h2>
+                                <div class="text-xs text-gray-500 mb-3">
+                                    October 16, 2020 • 4 min read
+                                </div>
+                                <p class="text-sm text-gray-700 leading-relaxed mb-4">
+                                    An old review from my previous blog: Jay Shetty's case that thinking like a monk has nothing to do with robes or renunciation, and everything to do with a mindset anyone, in any job or any faith, can actually adopt.
+                                </p>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="text-[10px] bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded">Book Review</span>
+                                    <span class="text-[10px] bg-indigo-50 text-indigo-800 border border-indigo-200 px-2 py-0.5 rounded">Philosophy</span>
+                                </div>
+                            </article>
+
+                            <!-- Article 7 -->
+                            <article class="blog-item pt-6" data-tags="Book Review,Economics" data-title="Book Review: How to Lie with Statistics by Darrell Huff">
+                                <div class="text-xs text-burgundy font-semibold uppercase tracking-wider mb-1">
+                                    <i class="fa-solid fa-book mr-1"></i> BOOK REVIEW
+                                </div>
+                                <h2 class="serif-text text-xl font-bold text-burgundy hover:underline cursor-pointer mb-1">
+                                    Book Review: How to Lie with Statistics by Darrell Huff
+                                </h2>
+                                <div class="text-xs text-gray-500 mb-3">
+                                    September 7, 2020 • 3 min read
+                                </div>
+                                <p class="text-sm text-gray-700 leading-relaxed mb-4">
+                                    An old review from my previous blog: why Mark Twain rated statistics worse than a plain lie, and how Darrell Huff's classic teaches you to spot a rigged average, a cropped axis, or a sample quietly tilted in someone's favor.
+                                </p>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="text-[10px] bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded">Book Review</span>
+                                    <span class="text-[10px] bg-sky-50 text-sky-800 border border-sky-200 px-2 py-0.5 rounded">Economics</span>
+                                </div>
+                            </article>
+
+                            <!-- Article 8 -->
+                            <article class="blog-item pt-6" data-tags="Economics,Covid-19" data-title="Economic Impact of Covid-19: The Other Side of the Coin">
+                                <div class="text-xs text-burgundy font-semibold uppercase tracking-wider mb-1 hidden">
+                                    ESSAY
+                                </div>
+                                <h2 class="serif-text text-xl font-bold text-burgundy hover:underline cursor-pointer mb-1">
+                                    Economic Impact of Covid-19: The Other Side of the Coin
+                                </h2>
+                                <div class="text-xs text-gray-500 mb-3">
+                                    April 9, 2020 • 4 min read
+                                </div>
+                                <p class="text-sm text-gray-700 leading-relaxed mb-4">
+                                    An old post from my previous blog, written in the pandemic's early weeks: the coming recession was only half the story. The other half was an economic mismatch between the parts of the economy that need physical proximity and the parts that don't.
+                                </p>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="text-[10px] bg-sky-50 text-sky-800 border border-sky-200 px-2 py-0.5 rounded">Economics</span>
+                                    <span class="text-[10px] bg-red-50 text-red-800 border border-red-200 px-2 py-0.5 rounded">Covid-19</span>
+                                </div>
+                            </article>
+
+                        </div>
+                    </div>
+
+                    <!-- Right / Archive Sidebar Column -->
+                    <div class="lg:col-span-4 bg-gray-50 p-5 rounded-lg border border-gray-200 space-y-4">
+                        <h3 class="serif-text font-bold text-burgundy text-base border-b border-gray-200 pb-2">Archive</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex justify-between items-center text-gray-700 hover:text-burgundy cursor-pointer">
+                                <span>September 2026</span>
+                                <span class="bg-gray-200 text-gray-700 text-xs px-2 py-0.5 rounded-full font-medium">5</span>
+                            </li>
+                            <li class="flex justify-between items-center text-gray-700 hover:text-burgundy cursor-pointer">
+                                <span>October 2020</span>
+                                <span class="bg-gray-200 text-gray-700 text-xs px-2 py-0.5 rounded-full font-medium">1</span>
+                            </li>
+                            <li class="flex justify-between items-center text-gray-700 hover:text-burgundy cursor-pointer">
+                                <span>September 2020</span>
+                                <span class="bg-gray-200 text-gray-700 text-xs px-2 py-0.5 rounded-full font-medium">1</span>
+                            </li>
+                            <li class="flex justify-between items-center text-gray-700 hover:text-burgundy cursor-pointer">
+                                <span>April 2020</span>
+                                <span class="bg-gray-200 text-gray-700 text-xs px-2 py-0.5 rounded-full font-medium">1</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PAGE 4: BOOKSHELF VIEW -->
+            <div id="page-bookshelf" class="page-view hidden space-y-6">
+                <h1 class="serif-text text-3xl font-bold text-burgundy">Bookshelf</h1>
+                <p class="text-gray-700 text-sm">Books that have profoundly shaped my perspective on economics, society, and research:</p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    <div class="p-3 bg-gray-50 rounded-lg text-center border border-gray-100">
+                        <i class="fa-solid fa-book text-burgundy text-2xl mb-2"></i>
+                        <h4 class="text-xs font-semibold text-gray-800">Poor Economics</h4>
+                        <p class="text-[10px] text-gray-500 mt-1">Abhijit Banerjee & Esther Duflo</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-lg text-center border border-gray-100">
+                        <i class="fa-solid fa-book text-burgundy text-2xl mb-2"></i>
+                        <h4 class="text-xs font-semibold text-gray-800">Scarcity</h4>
+                        <p class="text-[10px] text-gray-500 mt-1">Sendhil Mullainathan & Eldar Shafir</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-lg text-center border border-gray-100">
+                        <i class="fa-solid fa-book text-burgundy text-2xl mb-2"></i>
+                        <h4 class="text-xs font-semibold text-gray-800">Development as Freedom</h4>
+                        <p class="text-[10px] text-gray-500 mt-1">Amartya Sen</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-lg text-center border border-gray-100">
+                        <i class="fa-solid fa-book text-burgundy text-2xl mb-2"></i>
+                        <h4 class="text-xs font-semibold text-gray-800">'Most Good You Can Do'</h4>
+                        <p class="text-[10px] text-gray-500 mt-1">Peter Singer</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 5: RESOURCES VIEW -->
+            <div id="page-resources" class="page-view hidden space-y-6">
+                <h1 class="serif-text text-3xl font-bold text-burgundy">Resources</h1>
+                <ul class="space-y-3 text-sm text-gray-700">
+                    <li class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                        <i class="fa-solid fa-file-pdf text-burgundy text-lg"></i>
+                        <div>
+                            <span class="font-medium text-gray-900 block">Stata & R Coding Templates for Impact Evaluation</span>
+                            <span class="text-xs text-gray-500">Reusable do-files and scripts for econometric analysis.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                        <i class="fa-solid fa-file-pdf text-burgundy text-lg"></i>
+                        <div>
+                            <span class="font-medium text-gray-900 block">Field Survey Questionnaire Design Guidelines (BIGD)</span>
+                            <span class="text-xs text-gray-500">Best practices for household surveys and sensitive data collection.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- PAGE 6: HOBBY VIEW -->
+            <div id="page-hobby" class="page-view hidden space-y-6">
+                <h1 class="serif-text text-3xl font-bold text-burgundy">Hobby</h1>
+                <p class="text-gray-700 text-sm leading-relaxed">
+                    When away from equations and datasets, I enjoy long-distance cycling, capturing street photography, exploring historical literature, and experimenting with amateur culinary recipes from around the globe.
+                </p>
+            </div>
+
+        </main>
+
+        <footer class="w-full bg-burgundy text-white py-10 mt-20">
+            <div class="max-w-5xl mx-auto px-6 flex flex-col items-center space-y-6">
+                <!-- Social Icons -->
+                <div class="flex items-center space-x-6 text-xl">
+                    <a href="mailto:robiul.hossain@siu.edu" aria-label="Email" class="hover:text-gray-200 transition-colors">
+                        <i class="fa-solid fa-envelope"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="hover:text-gray-200 transition-colors">
+                        <i class="fa-brands fa-twitter"></i>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="hover:text-gray-200 transition-colors">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="hover:text-gray-200 transition-colors">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a href="https://scholar.google.com" target="_blank" rel="noopener noreferrer" aria-label="Google Scholar" class="hover:text-gray-200 transition-colors">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </a>
+                    <a href="https://researchgate.net" target="_blank" rel="noopener noreferrer" aria-label="ResearchGate" class="hover:text-gray-200 transition-colors">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                    </a>
+                </div>
+
+                <!-- Copyright -->
+                <div class="text-xs md:text-sm text-gray-200 text-center tracking-wide">
+                    &copy; 2026 Md. Robiul Hossain. All Rights Reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- CV Modal / Popup -->
+    <div id="cv-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-xl max-w-lg w-full mx-4 p-6 shadow-2xl relative space-y-4">
+            <button id="close-cv" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="serif-text text-2xl font-bold text-burgundy">Curriculum Vitae</h3>
+            <p class="text-sm text-gray-600">
+                You can view or download the complete academic CV of Md. Robiul Hossain detailing his research experience, publications, awards, and coursework.
+            </p>
+            <div class="pt-4 flex space-x-3">
+                <a href="#" onclick="showNotification('Downloading CV PDF...')" class="flex-1 bg-burgundy text-white text-center py-2.5 rounded-lg text-sm font-medium hover:bg-burgundy-dark transition-colors">
+                    Download PDF
+                </a>
+                <button id="close-cv-btn" class="px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 bg-gray-900 text-white text-sm px-4 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300">
+        <span id="toast-message">Notification message</span>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+        // Page Routing & Switching Logic
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-view').forEach(page => {
+                page.classList.add('hidden');
+            });
+
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+
+            document.querySelectorAll('nav a.nav-link').forEach(link => {
+                link.classList.remove('text-burgundy', 'font-semibold', 'border-b-2', 'border-burgundy', 'pb-1');
+                link.classList.add('hover:text-burgundy', 'transition-colors', 'pb-1');
+            });
+
+            const activeNav = document.getElementById(`nav-${pageId}`);
+            if (activeNav) {
+                activeNav.classList.add('text-burgundy', 'font-semibold', 'border-b-2', 'border-burgundy', 'pb-1');
+                activeNav.classList.remove('hover:text-burgundy');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Blog Filtering & Search Logic
+        let currentTopic = 'All';
+
+        function filterByTopic(topic) {
+            currentTopic = topic;
+            
+            // Update button styles
+            document.querySelectorAll('.topic-btn').forEach(btn => {
+                if (btn.getAttribute('data-topic') === topic) {
+                    btn.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                    btn.classList.add('bg-burgundy', 'text-white', 'font-medium');
+                } else {
+                    btn.classList.remove('bg-burgundy', 'text-white', 'font-medium');
+                    btn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+                }
+            });
+
+            applyBlogFilters();
+        }
+
+        function filterBlogPosts() {
+            applyBlogFilters();
+        }
+
+        function applyBlogFilters() {
+            const searchQuery = document.getElementById('blog-search').value.toLowerCase();
+            const items = document.querySelectorAll('.blog-item');
+            let visibleCount = 0;
+
+            items.forEach(item => {
+                const title = item.getAttribute('data-title').toLowerCase();
+                const tags = item.getAttribute('data-tags');
+                const textContent = item.textContent.toLowerCase();
+
+                const matchesSearch = title.includes(searchQuery) || textContent.includes(searchQuery);
+                const matchesTopic = (currentTopic === 'All') || (tags && tags.includes(currentTopic));
+
+                if (matchesSearch && matchesTopic) {
+                    item.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+
+            document.getElementById('post-count-label').textContent = `${visibleCount} post${visibleCount === 1 ? '' : 's'}`;
+        }
+
+        // CV Modal logic
+        const cvModal = document.getElementById('cv-modal');
+        const openCv = document.getElementById('open-cv');
+        const closeCv = document.getElementById('close-cv');
+        const closeCvBtn = document.getElementById('close-cv-btn');
+
+        openCv.addEventListener('click', (e) => {
+            e.preventDefault();
+            cvModal.classList.remove('hidden');
+        });
+
+        closeCv.addEventListener('click', () => {
+            cvModal.classList.add('hidden');
+        });
+
+        closeCvBtn.addEventListener('click', () => {
+            cvModal.classList.add('hidden');
+        });
+
+        cvModal.addEventListener('click', (e) => {
+            if (e.target === cvModal) {
+                cvModal.classList.add('hidden');
+            }
+        });
+
+        // Toast notification helper
+        function showNotification(msg) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            toastMessage.textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Constellation background animation
+        const canvas = document.getElementById('constellation');
+        const ctx = canvas.getContext('2d');
+
+        let particlesArray = [];
+        let numberOfParticles = 50;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = Math.max(document.body.scrollHeight, window.innerHeight);
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+        });
+
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.6;
+                this.vy = (Math.random() - 0.5) * 0.6;
+                this.radius = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
+                if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(128, 0, 32, 0.35)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        initParticles();
+
+        function animateConstellation() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+
+                for (let j = i + 1; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 130) {
+                        ctx.strokeStyle = `rgba(128, 0, 32, ${0.15 * (1 - distance / 130)})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateConstellation);
+        }
+
+        animateConstellation();
+    </script>
+</body>
+</html>
